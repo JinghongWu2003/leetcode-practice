@@ -7,12 +7,8 @@ class Solution(object):
         """
         j=0
         for i in range(len(nums)):
-            if nums[j]!=val:
-                # nums[j] = nums[i]
-                j+=1
-            elif nums[i]!=val:
+            if nums[i]!=val:
                 nums[j] = nums[i]
-                nums[i] = val
                 j+=1
         return j
 
