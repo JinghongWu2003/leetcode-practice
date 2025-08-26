@@ -5,13 +5,15 @@ class Solution(object):
         :type k: int
         :rtype: None Do not return anything, modify nums in-place instead.
         """
-        n=len(nums)
-        kk=k%n
+        n = len(nums)
+        k %= n
 
-        if kk==0:
-            return nums
+        def reverse(l, r, nums):
+            while l < r:
+                nums[l], nums[r] = nums[r], nums[l]
+                l += 1
+                r -= 1
 
-        nums1=[0]*n
-        nums1[:kk]=nums[-kk:]
-        nums1[kk:]=nums[:-kk]
-        nums[:]=nums1[:]
+        reverse(0, n - 1, nums)
+        reverse(0, k - 1, nums)
+        reverse(k, n - 1, nums)
