@@ -4,11 +4,17 @@ class Solution(object):
         :type citations: List[int]
         :rtype: int
         """
-        citations.sort()
-
-        h = 0
         n = len(citations)
-        for i in range(n):
-            h = max(h, min(n - i, citations[i]))
+        bucket = [0] * (n + 1)
 
-        return h
+        for i in range(n):
+            bucket[min(citations[i], n)] += 1
+
+        s = 0
+
+        for i in range(n, -1, -1):
+            s += bucket[i]
+            if s >= i:
+                return i
+
+        return 0
