@@ -18,3 +18,6 @@ class Solution(object):
                 cur += 1
 
         return cur
+
+
+# return len(s.strip().split()[-1])
