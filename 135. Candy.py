@@ -8,16 +8,22 @@ class Solution(object):
         if n == 1:
             return 1
 
-        candy = [1] * n
+        up = down = peak = 0
+        ans = 1
 
         for i in range(1, n):
             if ratings[i] > ratings[i - 1]:
-                candy[i] = candy[i - 1] + 1
+                up += 1
+                peak = up
+                down = 0
+                ans += 1 + up
+            elif ratings[i] == ratings[i - 1]:
+                peak = up = down = 0
+                ans += 1
+            else:
+                up = 0
+                down += 1
+                ans += down + 1 - (1 if down <= peak else 0)
 
-        for i in range(n - 2, -1, -1):
-            if ratings[i] > ratings[i + 1]:
-                candy[i] = max(candy[i + 1] + 1, candy[i])
-
-        return sum(candy)
-
+        return ans
 
