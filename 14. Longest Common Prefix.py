@@ -5,18 +5,18 @@ class Solution(object):
         :rtype: str
         """
         n = len(strs)
-        if n == 1:
+
+        if n <= 1:
             return strs[0]
 
         ans = strs[0]
-        for i in range(1, n):
-            if len(strs[i]) < len(ans):
-                ans = ans[:len(strs[i])]
-            for j in range(len(strs[i])):
-                if j < len(ans):
-                    if ans[j] != strs[i][j]:
-                        ans = ans[:j]
+
+        for s in strs[1:]:
+            j = 0
+            while j < len(ans) and j < len(s) and ans[j] == s[j]:
+                j += 1
+            ans = ans[:j]
+            if not ans:
+                return ""
 
         return ans
-
-
