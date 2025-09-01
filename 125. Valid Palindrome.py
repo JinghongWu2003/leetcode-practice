@@ -4,28 +4,16 @@ class Solution(object):
         :type s: str
         :rtype: bool
         """
+        l,r=0, len(s)-1
 
-        def up2low(char):
-            if 'A' <= char <= 'Z':
-                return chr(ord(char) - ord('A') + ord('a'))
-            elif 'a' <= char <= 'z':
-                return char
-            else:
-                return ''
-
-        processed_s = ''
-
-        for char in s:
-            processed_s += up2low(char)
-
-        l = len(processed_s) - 1
-        r = 0
-        while l > r:
-            if processed_s[l] != processed_s[r]:
+        while l<r:
+            while l<r and not s[l].isalnum():
+                l+=1
+            while l<r and not s[r].isalnum():
+                r-=1
+            if s[r].lower()!=s[l].lower():
                 return False
-            l -= 1
-            r += 1
+            l+=1
+            r-=1
 
         return True
-
-print(Solution().isPalindrome("0P"))
