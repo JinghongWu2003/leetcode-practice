@@ -15,4 +15,4 @@ class Solution(object):
                 ans=min(ans, i-l+1)
                 s-=nums[l]
                 l+=1
-        return 0 if ans==float('inf') else ans 
+        return 0 if ans==float('inf') else ans
