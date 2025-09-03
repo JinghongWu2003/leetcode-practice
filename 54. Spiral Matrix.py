@@ -4,35 +4,25 @@ class Solution(object):
         :type matrix: List[List[int]]
         :rtype: List[int]
         """
-        ans = []
-        count = 0
-        dr = True
-        n, m = len(matrix), len(matrix[0])
+        top, bottom = 0, len(matrix)-1
+        left, right = 0, len(matrix[0])-1
+        ans=[]
+        while top<=bottom and left<=right:
+            for i in range(left,right+1,1):
+                ans.append(matrix[top][i])
+            top+=1
 
-        def append(matrix, dr):
-            n, m = len(matrix), len(matrix[0])
-            if dr:
-                for i in range(m):
-                    ans.append(matrix[0][i])
-                for i in range(1, n):
-                    ans.append(matrix[i][-1])
-            else:
-                for i in range(m - 1, -1, -1):
-                    ans.append(matrix[-1][i])
-                for i in range(n - 2, -1, -1):
-                    ans.append(matrix[i][0])
+            for i in range (top, bottom+1, 1):
+                ans.append(matrix[i][right])
+            right-=1
 
-        while matrix and len(ans) < n * m:
-            append(matrix, dr)
-            if dr == True:
-                dr = False
-                matrix = [row[:-1] for row in matrix[1:]]
-            else:
-                dr = True
-                matrix = [row[1:] for row in matrix[:-1]]
+            if top<=bottom:
+                for i in range(right,left-1,-1):
+                    ans.append(matrix[bottom][i])
+                bottom-=1
+            if left<=right:
+                for i in range (bottom , top-1, -1):
+                    ans.append(matrix[i][left])
+                left+=1
 
-        return ans
-
-
-matrix = [[7],[9],[6]]
-print(Solution().spiralOrder(matrix))
+        return ans 
