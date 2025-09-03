@@ -4,29 +4,19 @@ class Solution(object):
         :type board: List[List[str]]
         :rtype: bool
         """
-        row = [{} for _ in range(9)]
-        col = [{} for _ in range(9)]
+        row=[set() for _ in range(9)]
+        col=[set() for _ in range(9)]
+        block=[set() for _ in range(9)]
 
-        i = j = 0
-        while i < 9:
-            j=0
-            while  j < 9:
-                x, y = i, j
-                block = {}
-                while x < i + 3:
-                    y=j
-                    while y < j + 3:
-                        if board[x][y] != '.':
-                            if board[x][y] in row[x] or board[x][y] in block or board[x][y] in col[y]:
-                                return False
-                            else:
-                                row[x][board[x][y]] = 1
-                                col[y][board[x][y]] = 1
-                                block[board[x][y]] = 1
-                        y+=1
-                    x+=1
-                j += 3
-            i += 3
+        for i in range(9):
+            for j in range(9):
+                if board[i][j] == '.':
+                    continue
+                box_id = (i//3) * 3 + (j//3)
+                if board[i][j] in row[i] or board[i][j] in col[j] or board[i][j] in block[box_id]:
+                    return False
+                row[i].add(board[i][j])
+                col[j].add(board[i][j])
+                block[box_id].add(board[i][j])
 
         return True
-
