@@ -5,18 +5,13 @@ class Solution(object):
         :type magazine: str
         :rtype: bool
         """
-        i=j=0
-        dict={}
-        for i in range(len(magazine)):
-            if magazine[i] in dict:
-                dict[magazine[i]]+=1
-            else:
-                dict[magazine[i]]=1
-        for i in range(len(ransomNote)):
-            if ransomNote[i] in dict:
-                dict[ransomNote[i]]-=1
-                if dict[ransomNote[i]]<0:
-                    return False
-            else:
+        if len(ransomNote) > len(magazine):
+            return False
+        freq = {}
+        for ch in magazine:
+            freq[ch] = freq.get(ch, 0) + 1
+        for ch in ransomNote:
+            if freq.get(ch, 0) == 0:
                 return False
+            freq[ch] -= 1
         return True
