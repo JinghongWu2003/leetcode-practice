@@ -5,4 +5,10 @@ class Solution(object):
         :type t: str
         :rtype: bool
         """
-        return len(set(zip(s,t)))==len(set(s))==len(set(t))
+        last_s,last_t={},{}
+
+        for i in range(len(s)):
+            if last_s.get(s[i],-1)!=last_t.get(t[i],-1):
+                return False
+            last_s[s[i]]=last_t[t[i]]=i
+        return True
