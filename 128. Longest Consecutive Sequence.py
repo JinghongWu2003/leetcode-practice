@@ -4,19 +4,17 @@ class Solution(object):
         :type nums: List[int]
         :rtype: int
         """
-        nums.sort()
-        l=0
-        if len(nums)==1:
-            return 1
         if len(nums)==0:
             return 0
+        nums.sort()
+        curr=1
         ans=1
-        for i in range(1,len(nums)):
-            if nums[i] == nums[i - 1]:
-                l+=1
-            elif nums[i]-nums[i-1]==1:
-                ans=max(ans,i-l+1)
+        for i in range(1, len(nums)):
+            if nums[i]==nums[i-1]:
+                continue
+            elif nums[i]==nums[i-1]+1:
+                curr+=1
+                ans=max(ans,curr)
             else:
-                l=i
+                curr=1
         return ans
-
