@@ -4,21 +4,18 @@ class Solution(object):
         :type s: str
         :rtype: bool
         """
+        stack = []
+        pairs = {")": "(", "]": "[", "}": "{"}
 
-        bucket = []
-
-        for x in s:
-            if x == "(" or x == "{" or x == "[":
-                bucket.append(x)
-            else:
-                if bucket and x == ")" and bucket[-1] == "(":
-                    bucket.pop()
-                elif bucket and x == "]" and bucket[-1] == "[":
-                    bucket.pop()
-                elif bucket and x == "}" and bucket[-1] == "{":
-                    bucket.pop()
-                else:
+        for ch in s:
+            if ch in pairs.values():  # 左括号
+                stack.append(ch)
+            elif ch in pairs:  # 右括号
+                if not stack or stack[-1] != pairs[ch]:
                     return False
+                stack.pop()
+            else:
+                # 如果输入里可能有非括号字符
+                return False
 
-        return len(bucket) == 0
-
+        return not stack
