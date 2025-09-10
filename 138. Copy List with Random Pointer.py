@@ -1,28 +1,41 @@
+"""
 # Definition for a Node.
 class Node:
-    def __init__(self, x, next=None, random=None):
-        self.val = x
+    def __init__(self, x: int, next: 'Node' = None, random: 'Node' = None):
+        self.val = int(x)
         self.next = next
         self.random = random
+"""
+
 
 class Solution:
     def copyRandomList(self, head: 'Optional[Node]') -> 'Optional[Node]':
         if not head:
             return None
 
-        old_to_new = {}   # 原节点 -> 新节点
-
-        # 第一次遍历：先复制节点（不连边）
         cur = head
         while cur:
-            old_to_new[cur] = Node(cur.val)
-            cur = cur.next
+            clone = Node(cur.val)
+            clone.next = cur.next
+            cur.next = clone
+            cur = clone.next
 
-        # 第二次遍历：补全 next 和 random
         cur = head
         while cur:
-            old_to_new[cur].next = old_to_new.get(cur.next)
-            old_to_new[cur].random = old_to_new.get(cur.random)
-            cur = cur.next
+            if cur.random:
+                cur.next.random = cur.random.next
+            cur = cur.next.next
 
-        return old_to_new[head]
+        pseudo = Node(0)
+        copy_cur = pseudo
+        cur = head
+        while cur:
+            clone = cur.next
+            nxt = clone.next
+
+            copy_cur.next = clone
+            copy_cur = clone
+
+            cur.next = nxt
+            cur = nxt
+        return pseudo.next
