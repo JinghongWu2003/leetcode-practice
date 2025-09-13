@@ -1,41 +1,21 @@
-"""
-# Definition for a Node.
-class Node:
-    def __init__(self, x: int, next: 'Node' = None, random: 'Node' = None):
-        self.val = int(x)
-        self.next = next
-        self.random = random
-"""
-
-
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
 class Solution:
-    def copyRandomList(self, head: 'Optional[Node]') -> 'Optional[Node]':
-        if not head:
-            return None
+    def isSymmetric(self, root: Optional[TreeNode]) -> bool:
+        if not root:
+            return False
+        
+        def isMirror(a:Optional[TreeNode], b:Optional[TreeNode])-> bool:
+            if not a and not b:
+                return True
+        
+            if not a or not b:
+                return False
+            return (a.val == b.val) and isMirror(a.left, b.right) and isMirror(a.right, b.left)
 
-        cur = head
-        while cur:
-            clone = Node(cur.val)
-            clone.next = cur.next
-            cur.next = clone
-            cur = clone.next
-
-        cur = head
-        while cur:
-            if cur.random:
-                cur.next.random = cur.random.next
-            cur = cur.next.next
-
-        pseudo = Node(0)
-        copy_cur = pseudo
-        cur = head
-        while cur:
-            clone = cur.next
-            nxt = clone.next
-
-            copy_cur.next = clone
-            copy_cur = clone
-
-            cur.next = nxt
-            cur = nxt
-        return pseudo.next
+        return isMirror(root.left, root.right)
+            
