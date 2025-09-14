@@ -6,30 +6,16 @@
 #         self.right = right
 class Solution:
     def sumNumbers(self, root: Optional[TreeNode]) -> int:
-        if not root:
-            return -1
-        array = []
-
         def dps(root: Optional[TreeNode], sum):
             if not root:
-                return
+                return 0
             sum *= 10
             sum += root.val
             if not root.left and not root.right:
-                array.append(sum)
+                return sum
+            return dps(root.left, sum) + dps(root.right, sum)
 
-            if root.left:
-                dps(root.left, sum)
-            if root.right:
-                dps(root.right, sum)
-
-        dps(root.right, root.val)
-        dps(root.left, root.val)
-
-        if not root.left and not root.right:
-            return root.val
-
-        return sum(array)
+        return dps(root, 0)
 
 
 
