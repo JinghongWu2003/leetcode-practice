@@ -1,19 +1,5 @@
-class Solution(object):
-    def isPalindrome(self, s):
-        """
-        :type s: str
-        :rtype: bool
-        """
-        l,r=0, len(s)-1
-
-        while l<r:
-            while l<r and not s[l].isalnum():
-                l+=1
-            while l<r and not s[r].isalnum():
-                r-=1
-            if s[r].lower()!=s[l].lower():
-                return False
-            l+=1
-            r-=1
-
-        return True
+class Solution:
+    def isPalindrome(self, s: str) -> bool:
+        s = "".join(ch.lower() for ch in s if ch.isalnum())
+        # 直接和反转后的字符串比较
+        return s == s[::-1]
