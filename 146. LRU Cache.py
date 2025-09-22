@@ -1,5 +1,5 @@
 class Node:
-    def __init__(self, key, val):
+    def __init__(self, key=0, val=0):
         self.key = key
         self.val = val
         self.prev = None
@@ -7,51 +7,55 @@ class Node:
 
 
 class LRUCache:
+
     def __init__(self, capacity: int):
         self.cap = capacity
-        self.cache = {}
-
-        self.head = Node(0, 0)
-        self.tail = Node(0, 0)
+        self.map = {}
+        self.head = Node()
+        self.tail = Node()
         self.head.next = self.tail
         self.tail.prev = self.head
 
-    def _move_to_head(self, node):
-        self._remove(node)
-        self._add(node)
-
-    def _add(self, node):
-        nxt = self.head.next
-        self.head.next = node
+    def _add_to_head(self, node):
         node.prev = self.head
-        node.next = nxt
-        nxt.prev = node
+        node.next = self.head.next
+        self.head.next.prev = node
+        self.head.next = node
 
     def _remove(self, node):
-        prev, nxt = node.prev, node.next
-        prev.next = nxt
-        nxt.prev = prev
+        p, n = node.prev, node.next
+        p.next = n
+        n.prev = p
+
+    def _move_to_head(self, node):
+        self._remove(node)
+        self._add_to_head(node)
+
+    def _pop_tail(self):
+        node = self.tail.prev
+        self._remove(node)
+        return node
 
     def get(self, key: int) -> int:
-        if key not in self.cache:
+        if key not in self.map:
             return -1
-        node = self.cache[key]
+        node = self.map[key]
         self._move_to_head(node)
         return node.val
 
     def put(self, key: int, value: int) -> None:
-        if key in self.cache:
-            node = self.cache[key]
+        if key in self.map:
+            node = self.map[key]
             node.val = value
             self._move_to_head(node)
-        else:
-            node = Node(key, value)
-            self.cache[key] = node
-            self._add(node)
-            if len(self.cache) > self.cap:
-                lru = self.tail.prev
-                self._remove(lru)
-                del self.cache[lru.key]
+            return
+        node = Node(key, value)
+        self.map[key] = node
+        self._add_to_head(node)
+
+        if len(self.map) > self.cap:
+            lru = self._pop_tail()
+            del self.map[lru.key]
 
 # Your LRUCache object will be instantiated and called as such:
 # obj = LRUCache(capacity)
