@@ -1,22 +1,18 @@
-class Solution(object):
-    def jump(self, nums):
-        """
-        :type nums: List[int]
-        :rtype: int
-        """
+class Solution:
+    def jump(self, nums: List[int]) -> int:
         n = len(nums)
-
-        if n <= 1:
+        if n < 2:
             return 0
 
         step = 0
-        cur_right = 0
-        furthest = 0
+        curEnd = 0
+        curFurthest = 0
 
         for i in range(n - 1):
-            furthest = max(furthest, nums[i] + i)
-            if cur_right == i:
+            curFurthest = max(curFurthest, i + nums[i])
+            if curEnd == i:
                 step += 1
-                cur_right = furthest
-
+                curEnd = curFurthest
+                if curEnd >= n - 1:
+                    break
         return step
